@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smartlife/screens/home.dart';
 import 'package:smartlife/screens/terms_and_conditions/childrens_ps.dart';
 import 'package:smartlife/screens/terms_and_conditions/privacy_policy.dart';
 import 'package:smartlife/screens/terms_and_conditions/user_agreement.dart';
@@ -227,6 +228,11 @@ class _LoginState extends State<Login> {
                 onPressed: isChecked
                     ? () {
                         // Navigate or perform login logic here
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const HomePage()),
+                        );
                       }
                     : null, // Disable button if checkbox is unchecked
                 style: ElevatedButton.styleFrom(

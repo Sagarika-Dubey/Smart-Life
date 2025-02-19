@@ -6,6 +6,7 @@ class Childrensps extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text("SmartLife Children's Privacy Statement"),
         backgroundColor: Colors.white,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smartlife/screens/permission.dart';
 
 class SetPasswordPage extends StatefulWidget {
   @override
@@ -82,6 +83,11 @@ class _SetPasswordPageState extends State<SetPasswordPage> {
                 onPressed: _isValid
                     ? () {
                         print("Password Set Successfully");
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Permission()),
+                        );
                         // Handle successful password submission here
                       }
                     : null, // Disables the button when _isValid is false
