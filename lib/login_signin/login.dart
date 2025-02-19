@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import './first_page.dart'; // Import your frontpage.dart file
+import 'package:smartlife/screens/terms_and_conditions/childrens_ps.dart';
+import 'package:smartlife/screens/terms_and_conditions/privacy_policy.dart';
+import 'package:smartlife/screens/terms_and_conditions/user_agreement.dart';
+import './first_page.dart'; // Import FirstPage
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -44,67 +47,61 @@ class _LoginState extends State<Login> {
   @override
   void initState() {
     super.initState();
-    // Set India as the default country if available
-    selectedCountry = countryNames.contains("India")
-        ? "India"
-        : (countryNames.isNotEmpty ? countryNames[0] : null);
+    selectedCountry =
+        countryNames.contains("India") ? "India" : countryNames[0];
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, size: 28),
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => FirstPage()),
+            );
+          },
+        ),
+      ),
       backgroundColor: Colors.white,
       body: Padding(
-        padding: const EdgeInsets.symmetric(
-            horizontal: 30.0, vertical: 40.0), // Updated padding
+        padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 40.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            IconButton(
-              icon: Icon(Icons.arrow_back, size: 28),
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          FirstPage()), // Navigate to FrontPage
-                );
-              },
-            ),
-            SizedBox(height: 10),
-            Text(
+            /// Title
+            const Text(
               "Log In",
               style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             /// Country Dropdown
-            countryNames.isNotEmpty
-                ? DropdownButtonFormField<String>(
-                    value: selectedCountry,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      filled: true,
-                      fillColor: Colors.grey[100],
-                    ),
-                    items: countryNames.map((String countryName) {
-                      return DropdownMenuItem<String>(
-                        value: countryName,
-                        child: Text(countryName), // Display the country name
-                      );
-                    }).toList(),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        selectedCountry = newValue;
-                      });
-                    },
-                  )
-                : Center(
-                    child:
-                        CircularProgressIndicator()), // Show loading indicator while fetching countries
-            SizedBox(height: 15),
+            DropdownButtonFormField<String>(
+              value: selectedCountry,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                filled: true,
+                fillColor: Colors.grey[100],
+              ),
+              items: countryNames.map((String countryName) {
+                return DropdownMenuItem<String>(
+                  value: countryName,
+                  child: Text(countryName),
+                );
+              }).toList(),
+              onChanged: (String? newValue) {
+                setState(() {
+                  selectedCountry = newValue;
+                });
+              },
+            ),
+            const SizedBox(height: 15),
 
             /// Email Input
             TextField(
@@ -118,7 +115,7 @@ class _LoginState extends State<Login> {
                 ),
               ),
             ),
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
 
             /// Password Input
             TextField(
@@ -133,7 +130,7 @@ class _LoginState extends State<Login> {
                 ),
               ),
             ),
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
 
             /// Checkbox & Links
             Row(
@@ -147,57 +144,116 @@ class _LoginState extends State<Login> {
                   },
                 ),
                 Expanded(
-                  child: Text.rich(
-                    TextSpan(
+                  child: RichText(
+                    text: TextSpan(
                       text: "I agree to the ",
-                      style: TextStyle(fontSize: 14),
+                      style: const TextStyle(fontSize: 14, color: Colors.black),
                       children: [
-                        TextSpan(
-                          text: "Privacy Policy",
-                          style: TextStyle(color: Colors.blue),
+                        WidgetSpan(
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const PrivacyPolicy()),
+                              );
+                            },
+                            child: const Text(
+                              "Privacy Policy",
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.blue,
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
+                          ),
                         ),
-                        TextSpan(text: " User Agreement and "),
-                        TextSpan(
-                          text: "Children's Privacy Statement",
-                          style: TextStyle(color: Colors.blue),
+                        const TextSpan(text: " , "),
+                        WidgetSpan(
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const UserAgreement()),
+                              );
+                            },
+                            child: const Text(
+                              "User Agreement",
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.blue,
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
+                          ),
                         ),
+                        const TextSpan(text: " and "),
+                        WidgetSpan(
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const Childrensps()),
+                              );
+                            },
+                            child: const Text(
+                              "Children's Privacy Statement",
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.blue,
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const TextSpan(text: "."),
                       ],
                     ),
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
 
             /// Log In Button
             SizedBox(
               width: double.infinity,
               height: 48,
               child: ElevatedButton(
-                onPressed: isChecked ? () {} : null,
+                onPressed: isChecked
+                    ? () {
+                        // Navigate or perform login logic here
+                      }
+                    : null, // Disable button if checkbox is unchecked
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
+                  backgroundColor: isChecked
+                      ? Colors.blue
+                      : Colors.grey[300], // Change color when disabled
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: Text("Log In"),
+                child: const Text("Log In"),
               ),
             ),
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
 
             /// Forgot Password
             Center(
               child: TextButton(
                 onPressed: () {},
-                child: Text(
+                child: const Text(
                   "Forgot Password",
                   style: TextStyle(color: Colors.blue),
                 ),
               ),
             ),
-            Spacer(), // This will push the content upwards
+            const Spacer(), // Pushes Google button to bottom
 
             /// Google Sign-in (Aligned to the bottom)
             Center(
@@ -206,7 +262,7 @@ class _LoginState extends State<Login> {
                   "assets/images/google_logo.webp",
                   width: 30,
                   height: 30,
-                ), // Use your own image
+                ),
                 iconSize: 40,
                 onPressed: () {},
               ),
