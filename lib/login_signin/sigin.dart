@@ -3,21 +3,20 @@ import 'package:smartlife/login_signin/verification_page.dart';
 import 'package:smartlife/screens/terms_and_conditions/childrens_ps.dart';
 import 'package:smartlife/screens/terms_and_conditions/privacy_policy.dart';
 import 'package:smartlife/screens/terms_and_conditions/user_agreement.dart';
-import './first_page.dart'; // Import your frontpage.dart file
+import './first_page.dart';
 
-class Sigin extends StatefulWidget {
-  const Sigin({super.key});
+class SignIn extends StatefulWidget {
+  const SignIn({super.key});
 
   @override
-  State<Sigin> createState() => _LoginState();
+  State<SignIn> createState() => _SignInState();
 }
 
-class _LoginState extends State<Sigin> {
+class _SignInState extends State<SignIn> {
   String? selectedCountry;
   bool isChecked = false;
 
-  // Hardcoded list of country names
-  List<String> countryNames = [
+  final List<String> countryNames = [
     "India",
     "United States",
     "United Kingdom",
@@ -49,8 +48,7 @@ class _LoginState extends State<Sigin> {
   @override
   void initState() {
     super.initState();
-    selectedCountry =
-        countryNames.contains("India") ? "India" : countryNames[0];
+    selectedCountry = "India"; // Ensuring a valid default value
   }
 
   @override
@@ -63,192 +61,172 @@ class _LoginState extends State<Sigin> {
           onPressed: () {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => FirstPage()),
+              MaterialPageRoute(builder: (context) => const FirstPage()),
             );
           },
         ),
       ),
       backgroundColor: Colors.white,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 40),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            /// Title
-            const Text(
-              "Register",
-              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 20),
-
-            /// Country Dropdown
-            DropdownButtonFormField<String>(
-              value: selectedCountry,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                filled: true,
-                fillColor: Colors.grey[100],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 40),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                "Register",
+                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
               ),
-              items: countryNames.map((String countryName) {
-                return DropdownMenuItem<String>(
-                  value: countryName,
-                  child: Text(countryName),
-                );
-              }).toList(),
-              onChanged: (String? newValue) {
-                setState(() {
-                  selectedCountry = newValue;
-                });
-              },
-            ),
-            const SizedBox(height: 15),
+              const SizedBox(height: 20),
 
-            /// Email Input
-            TextField(
-              decoration: InputDecoration(
-                hintText: "Email Address",
-                filled: true,
-                fillColor: Colors.grey[100],
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide.none,
-                ),
-              ),
-            ),
-            const SizedBox(height: 15),
-
-            /// Checkbox & Links
-            Row(
-              children: [
-                Checkbox(
-                  value: isChecked,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      isChecked = value ?? false;
-                    });
-                  },
-                ),
-                Expanded(
-                  child: RichText(
-                    text: TextSpan(
-                      text: "I agree to the ",
-                      style: const TextStyle(fontSize: 14, color: Colors.black),
-                      children: [
-                        WidgetSpan(
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const PrivacyPolicy()),
-                              );
-                            },
-                            child: const Text(
-                              "Privacy Policy",
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.blue,
-                                decoration: TextDecoration.underline,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const TextSpan(text: " , "),
-                        WidgetSpan(
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const UserAgreement()),
-                              );
-                            },
-                            child: const Text(
-                              "User Agreement",
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.blue,
-                                decoration: TextDecoration.underline,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const TextSpan(text: " and "),
-                        WidgetSpan(
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const Childrensps()),
-                              );
-                            },
-                            child: const Text(
-                              "Children's Privacy Statement",
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.blue,
-                                decoration: TextDecoration.underline,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const TextSpan(text: "."),
-                      ],
-                    ),
-                  ),
-                )
-              ],
-            ),
-            const SizedBox(height: 15),
-
-            /// Get Verification Code Button
-            SizedBox(
-              width: double.infinity,
-              height: 48,
-              child: ElevatedButton(
-                onPressed: isChecked
-                    ? () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => VerificationPage()),
-                        );
-                      }
-                    : null, // Disables button if isChecked is false
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: isChecked
-                      ? Colors.blue
-                      : Colors.grey[300], // Change color when disabled
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
+              /// Country Dropdown
+              DropdownButtonFormField<String>(
+                value: selectedCountry,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
+                  filled: true,
+                  fillColor: Colors.grey[100],
                 ),
-                child: const Text("Get Verification Code"),
+                items: countryNames.map((String countryName) {
+                  return DropdownMenuItem<String>(
+                    value: countryName,
+                    child: Text(countryName),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    selectedCountry = newValue;
+                  });
+                },
               ),
-            ),
-            const SizedBox(height: 15),
+              const SizedBox(height: 15),
 
-            const Spacer(), // Pushes the Google button to the bottom
-
-            /// Google Sign-in (Aligned to the bottom)
-            Center(
-              child: IconButton(
-                icon: Image.asset(
-                  "assets/images/google_logo.webp",
-                  width: 30,
-                  height: 30,
+              /// Email Input
+              TextField(
+                decoration: InputDecoration(
+                  hintText: "Email Address",
+                  filled: true,
+                  fillColor: Colors.grey[100],
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide.none,
+                  ),
                 ),
-                iconSize: 40,
-                onPressed: () {},
               ),
-            ),
-          ],
+              const SizedBox(height: 15),
+
+              /// Checkbox & Links (Preventing overflow)
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Checkbox(
+                    value: isChecked,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        isChecked = value ?? false;
+                      });
+                    },
+                  ),
+                  Expanded(
+                    child: RichText(
+                      text: TextSpan(
+                        text: "I agree to the ",
+                        style:
+                            const TextStyle(fontSize: 14, color: Colors.black),
+                        children: [
+                          _buildLink("Privacy Policy", () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const PrivacyPolicy()),
+                            );
+                          }),
+                          const TextSpan(text: " , "),
+                          _buildLink("User Agreement", () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const UserAgreement()),
+                            );
+                          }),
+                          const TextSpan(text: " and "),
+                          _buildLink("Children's Privacy Statement", () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Childrensps()),
+                            );
+                          }),
+                          const TextSpan(text: "."),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              const SizedBox(height: 15),
+
+              /// Get Verification Code Button
+              SizedBox(
+                width: double.infinity,
+                height: 48,
+                child: ElevatedButton(
+                  onPressed: isChecked
+                      ? () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => VerificationPage()),
+                          );
+                        }
+                      : null,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: isChecked ? Colors.blue : Colors.grey[300],
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  child: const Text("Get Verification Code"),
+                ),
+              ),
+              const SizedBox(height: 15),
+
+              /// Google Sign-in Button
+              Center(
+                child: IconButton(
+                  icon: Image.asset(
+                    "assets/images/google_logo.webp",
+                    width: 30,
+                    height: 30,
+                  ),
+                  iconSize: 40,
+                  onPressed: () {
+                    // Implement Google Sign-in functionality here
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  /// Helper function to create links
+  WidgetSpan _buildLink(String text, VoidCallback onTap) {
+    return WidgetSpan(
+      child: GestureDetector(
+        onTap: onTap,
+        child: Text(
+          text,
+          style: const TextStyle(
+            fontSize: 14,
+            color: Colors.blue,
+            decoration: TextDecoration.underline,
+          ),
         ),
       ),
     );

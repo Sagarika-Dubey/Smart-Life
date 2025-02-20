@@ -6,7 +6,7 @@ class RoomScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.amber,
+      body: Center(child: Text("under development")),
     );
   }
 }
