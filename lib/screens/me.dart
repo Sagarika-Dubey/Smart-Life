@@ -33,7 +33,7 @@ class _MeScreenState extends State<MeScreen> {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color.fromARGB(255, 202, 227, 243),
+              Color.fromARGB(255, 199, 200, 201),
               Color.fromARGB(255, 255, 255, 255)
             ],
           ),

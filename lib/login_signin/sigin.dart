@@ -183,7 +183,9 @@ class _SignInState extends State<SignIn> {
                         }
                       : null,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: isChecked ? Colors.blue : Colors.grey[300],
+                    backgroundColor: isChecked
+                        ? const Color.fromARGB(255, 103, 104, 105)
+                        : Colors.grey[300],
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),

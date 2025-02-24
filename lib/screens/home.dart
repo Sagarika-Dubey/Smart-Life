@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:smartlife/screens/all_devices.dart';
+import 'package:smartlife/screens/energy_saving.dart';
 import 'package:smartlife/screens/profile_page.dart';
 import 'package:smartlife/screens/room.dart';
 import 'package:smartlife/screens/scene.dart';
 import 'package:smartlife/screens/smart.dart';
-import './me.dart';
+import 'package:smartlife/screens/me.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:smartlife/screens/temp.dart';
+
+const String apiKey = "d0290b5d0ee000ec31806f19a5dc73f8";
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -32,20 +41,14 @@ class _HomePageState extends State<HomePage> {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color.fromARGB(255, 202, 227, 243),
+              Color.fromARGB(255, 199, 200, 201),
               Color.fromARGB(255, 255, 255, 255)
             ],
           ),
         ),
-        child: Column(
-          children: [
-            Expanded(
-              child: IndexedStack(
-                index: _currentIndex,
-                children: _screens,
-              ),
-            ),
-          ],
+        child: IndexedStack(
+          index: _currentIndex,
+          children: _screens,
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -71,7 +74,56 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  double? temperature;
+  String weatherDescription = "";
+
+  @override
+  void initState() {
+    super.initState();
+    getUserLocation();
+  }
+
+  Future<void> getWeatherData(double lat, double lon) async {
+    final url = Uri.parse(
+        "https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&appid=$apiKey&units=metric");
+
+    try {
+      final response = await http.get(url);
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        if (!mounted) return;
+
+        setState(() {
+          temperature = data["main"]["temp"];
+          weatherDescription = data["weather"][0]["description"];
+        });
+      }
+    } catch (e) {
+      print("Error fetching weather data: $e");
+    }
+  }
+
+  Future<void> getUserLocation() async {
+    LocationPermission permission = await Geolocator.requestPermission();
+    if (permission == LocationPermission.denied) return;
+
+    try {
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+      if (!mounted) return;
+
+      getWeatherData(position.latitude, position.longitude);
+    } catch (e) {
+      print("Error fetching location: $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -83,7 +135,6 @@ class HomeScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
-                mainAxisSize: MainAxisSize.min,
                 children: [
                   IconButton(
                     onPressed: () {
@@ -94,7 +145,7 @@ class HomeScreen extends StatelessWidget {
                     },
                     icon: Icon(Icons.person_2_rounded),
                   ),
-                  Text("Hi User!")
+                  Text("Hi User!"),
                 ],
               ),
               IconButton(
@@ -103,51 +154,145 @@ class HomeScreen extends StatelessWidget {
               ),
             ],
           ),
-          Column(
-            children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
                   'My Home',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
                 ),
-              ),
-              Card(
-                child: ListTile(
-                  leading: const Icon(Icons.lightbulb, color: Colors.blue),
-                  title: const Text(
-                    "Try some new features",
-                    style: TextStyle(fontSize: 17),
+                PopupMenuButton<String>(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
                   ),
-                  subtitle: const Text(
-                    "Don't show again",
-                    style: TextStyle(fontSize: 12),
-                  ),
-                  trailing: const Icon(Icons.arrow_forward_ios),
-                ),
-              ),
-            ],
+                  icon: Icon(Icons.more_vert), // Three-dot menu icon
+                  onSelected: (String value) {
+                    if (value == 'all_devices') {
+                      print("Navigating to All Devices");
+                      // Implement navigation logic here
+                    } else if (value == 'room_list') {
+                      print("Navigating to Room List");
+                      // Implement navigation logic here
+                    } else if (value == 'manage_homepage') {
+                      print("Navigating to Manage Homepage");
+                      // Implement navigation logic here
+                    }
+                  },
+                  itemBuilder: (context) => [
+                    PopupMenuItem(
+                      value: 'all_devices',
+                      child: ListTile(
+                        leading: Icon(Icons.devices),
+                        title: Text('All Devices'),
+                        onTap: () {
+                          Navigator.pop(
+                              context); // Close the menu before navigating
+                          print("Navigating to All Devices");
+                          // Implement navigation logic here
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AllDevices()));
+                        },
+                      ),
+                    ),
+                    PopupMenuItem(
+                      value: 'room_list',
+                      child: ListTile(
+                        leading: Icon(Icons.meeting_room),
+                        title: Text('Room List'),
+                        onTap: () {
+                          Navigator.pop(
+                              context); // Close the menu before navigating
+                          print("Navigating to Room List");
+                          // Implement navigation logic here
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => RoomScreen()));
+                        },
+                      ),
+                    ),
+                    PopupMenuItem(
+                      value: 'manage_homepage',
+                      child: ListTile(
+                        leading: Icon(Icons.home),
+                        title: Text('Manage Homepage'),
+                        onTap: () {
+                          Navigator.pop(
+                              context); // Close the menu before navigating
+                          print("Navigating to Manage Homepage");
+                          // Implement navigation logic here
+                        },
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+          Card(
+            child: ListTile(
+              leading: const Icon(Icons.lightbulb, color: Colors.blue),
+              title: const Text("Try some new features",
+                  style: TextStyle(fontSize: 17)),
+              subtitle: const Text("Don't show again",
+                  style: TextStyle(fontSize: 12)),
+              trailing: const Icon(Icons.arrow_forward_ios),
+            ),
           ),
           const SizedBox(height: 10),
           Row(
             children: [
               Expanded(
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                        15), // Adjust for more or less rounding
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(
-                        15), // Ensures the image follows the rounded corners
-                    child: SizedBox(
-                      width: double.infinity, // Makes the card take full width
-                      child: Image.asset(
-                        'assets/images/sun.jpg',
-                        height: 120,
-                        fit: BoxFit
-                            .cover, // Ensures the image fills the card properly
-                      ),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => WeatherScreen()),
+                    );
+                  },
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(15),
+                          child: Image.asset(
+                            'assets/images/sun.jpg',
+                            height: 120,
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Positioned(
+                          top: 10,
+                          right: 10,
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 6),
+                            decoration: BoxDecoration(
+                              color: Colors.black.withOpacity(0.6),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Text(
+                              temperature != null
+                                  ? "${temperature?.toStringAsFixed(1)}°C"
+                                  : "Loading...",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -160,6 +305,14 @@ class HomeScreen extends StatelessWidget {
                         leading:
                             const Icon(Icons.flash_on, color: Colors.orange),
                         title: const Text("Energy Saving"),
+                        onTap: () {
+                          //print("Energy Saving tapped");
+                          // Navigate or perform an action here
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => EnergySavingPage()));
+                        },
                       ),
                     ),
                     Card(
@@ -167,6 +320,10 @@ class HomeScreen extends StatelessWidget {
                         leading:
                             const Icon(Icons.grid_view, color: Colors.blue),
                         title: const Text("All Devices"),
+                        onTap: () {
+                          print("All Devices tapped");
+                          // Navigate or perform an action here
+                        },
                       ),
                     ),
                   ],
@@ -179,15 +336,13 @@ class HomeScreen extends StatelessWidget {
             child: ElevatedButton(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(
-                    horizontal: 20, vertical: 12), // Adjust padding
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
               ),
               child: Row(
-                mainAxisSize: MainAxisSize
-                    .min, // Ensures the button is only as wide as needed
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.edit, size: 18), // Pencil icon
-                  SizedBox(width: 8), // Space between icon and text
+                  Icon(Icons.edit, size: 18),
+                  SizedBox(width: 8),
                   Text("Edit"),
                 ],
               ),

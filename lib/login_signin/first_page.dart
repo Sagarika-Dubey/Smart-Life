@@ -41,7 +41,7 @@ class FirstPage extends StatelessWidget {
                 );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
+                backgroundColor: const Color.fromARGB(255, 139, 142, 145),
                 padding:
                     const EdgeInsets.symmetric(horizontal: 100, vertical: 15),
                 shape: RoundedRectangleBorder(
@@ -75,7 +75,8 @@ class FirstPage extends StatelessWidget {
               ),
               child: const Text(
                 'Sign Up',
-                style: TextStyle(fontSize: 16, color: Colors.blue),
+                style: TextStyle(
+                    fontSize: 16, color: Color.fromARGB(255, 0, 0, 0)),
               ),
             ),
             SizedBox(

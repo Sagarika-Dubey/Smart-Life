@@ -92,7 +92,9 @@ class _SetPasswordPageState extends State<SetPasswordPage> {
                       }
                     : null, // Disables the button when _isValid is false
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: _isValid ? Colors.blue : Colors.blue[100],
+                  backgroundColor: _isValid
+                      ? const Color.fromARGB(255, 103, 104, 105)
+                      : Colors.blue[100],
                   padding: const EdgeInsets.symmetric(vertical: 14),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
