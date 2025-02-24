@@ -1,7 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:smartlife/screens/profile_page.dart';
+import 'package:smartlife/screens/qrscanner_screen.dart';
+import './setting_screen.dart';
 
-class MeScreen extends StatelessWidget {
+class MeScreen extends StatefulWidget {
+  @override
+  _MeScreenState createState() => _MeScreenState();
+}
+
+class _MeScreenState extends State<MeScreen> {
+  String _nickname = "Tap to Set Nickname"; // Default nickname
+
+  void _navigateToProfile(BuildContext context) async {
+    final newNickname = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ProfilePage()),
+    );
+
+    if (newNickname != null && newNickname is String) {
+      setState(() {
+        _nickname = newNickname; // Update the nickname dynamically
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,45 +43,45 @@ class MeScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Top Right Icons
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   IconButton(
                     icon: const Icon(Icons.qr_code_scanner),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => QRScannerScreen()),
+                      );
+                    },
                   ),
                   IconButton(
                     icon: const Icon(Icons.settings),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SettingsScreen()),
+                      );
+                    },
                   ),
                 ],
               ),
-
-              // Profile Section with Clickable Nickname
               GestureDetector(
-                onTap: () {
-                  print("Nickname tapped");
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ProfilePage()),
-                  );
-                },
+                onTap: () => _navigateToProfile(context),
                 child: ListTile(
                   leading: const CircleAvatar(
                     backgroundColor: Colors.grey,
                     child: Icon(Icons.person, color: Colors.white),
                   ),
-                  title: const Text(
-                    "Tap to Set Nickname",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                  title: Text(
+                    _nickname, // Display updated nickname
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
-
               const SizedBox(height: 20),
-
-              // Third-Party Services Card
               Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
@@ -105,10 +127,7 @@ class MeScreen extends StatelessWidget {
                   ),
                 ),
               ),
-
               const SizedBox(height: 20),
-
-              // Home Management & Other Items Card
               Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),

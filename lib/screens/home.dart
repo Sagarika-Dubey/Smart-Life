@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smartlife/screens/profile_page.dart';
 import 'package:smartlife/screens/room.dart';
 import 'package:smartlife/screens/scene.dart';
 import 'package:smartlife/screens/smart.dart';
@@ -81,9 +82,20 @@ class HomeScreen extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.person_2_rounded),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ProfilePage()),
+                      );
+                    },
+                    icon: Icon(Icons.person_2_rounded),
+                  ),
+                  Text("Hi User!")
+                ],
               ),
               IconButton(
                 onPressed: () {},
@@ -96,7 +108,7 @@ class HomeScreen extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'My Home..',
+                  'My Home',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
                 ),
               ),
@@ -104,12 +116,12 @@ class HomeScreen extends StatelessWidget {
                 child: ListTile(
                   leading: const Icon(Icons.lightbulb, color: Colors.blue),
                   title: const Text(
-                    "Learn about the new DIY homepage",
-                    style: TextStyle(fontSize: 15),
+                    "Try some new features",
+                    style: TextStyle(fontSize: 17),
                   ),
                   subtitle: const Text(
                     "Don't show again",
-                    style: TextStyle(fontSize: 10),
+                    style: TextStyle(fontSize: 12),
                   ),
                   trailing: const Icon(Icons.arrow_forward_ios),
                 ),

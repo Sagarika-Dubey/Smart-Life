@@ -155,7 +155,7 @@ class _LoginState extends State<Login> {
                           WidgetSpan(
                             child: GestureDetector(
                               onTap: () {
-                                Navigator.push(
+                                Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
@@ -176,7 +176,7 @@ class _LoginState extends State<Login> {
                           WidgetSpan(
                             child: GestureDetector(
                               onTap: () {
-                                Navigator.push(
+                                Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
@@ -197,7 +197,7 @@ class _LoginState extends State<Login> {
                           WidgetSpan(
                             child: GestureDetector(
                               onTap: () {
-                                Navigator.push(
+                                Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
@@ -230,7 +230,7 @@ class _LoginState extends State<Login> {
                 child: ElevatedButton(
                   onPressed: isChecked
                       ? () {
-                          Navigator.push(
+                          Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const HomePage()),

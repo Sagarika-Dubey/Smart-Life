@@ -33,8 +33,10 @@ class _ProfilePageState extends State<ProfilePage> {
                   setState(() {
                     _nickname = nicknameController.text;
                   });
+                  Navigator.pop(context);
+                  Navigator.pop(
+                      context, _nickname); // Send updated nickname to MeScreen
                 }
-                Navigator.pop(context);
               },
               child: const Text("Save"),
             ),
@@ -155,8 +157,17 @@ class AvatarSelectionPage extends StatelessWidget {
 
   final List<String> avatarPaths = [
     "assets/images/avtar1.png",
-    "assets/images/avtar2.webp",
+    "assets/images/avtar2.png",
     "assets/images/avtar3.png",
+    "assets/images/avtar4.png",
+    "assets/images/avtar7.png",
+    "assets/images/avtar6.png",
+    "assets/images/avtar8.png",
+    "assets/images/avtar5.png",
+    "assets/images/avtar9.png",
+    "assets/images/avtar10.png",
+    "assets/images/avtar11.png",
+    "assets/images/avtar12.png",
   ];
 
   @override

@@ -83,7 +83,7 @@ class _SetPasswordPageState extends State<SetPasswordPage> {
                 onPressed: _isValid
                     ? () {
                         print("Password Set Successfully");
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) => const Permission()),

@@ -88,7 +88,7 @@ class _VerificationPageState extends State<VerificationPage> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => SetPasswordPage()),
                   );

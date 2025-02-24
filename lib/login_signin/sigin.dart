@@ -137,7 +137,7 @@ class _SignInState extends State<SignIn> {
                             const TextStyle(fontSize: 14, color: Colors.black),
                         children: [
                           _buildLink("Privacy Policy", () {
-                            Navigator.push(
+                            Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => const PrivacyPolicy()),
@@ -145,7 +145,7 @@ class _SignInState extends State<SignIn> {
                           }),
                           const TextSpan(text: " , "),
                           _buildLink("User Agreement", () {
-                            Navigator.push(
+                            Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => const UserAgreement()),
@@ -153,7 +153,7 @@ class _SignInState extends State<SignIn> {
                           }),
                           const TextSpan(text: " and "),
                           _buildLink("Children's Privacy Statement", () {
-                            Navigator.push(
+                            Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => const Childrensps()),
@@ -175,7 +175,7 @@ class _SignInState extends State<SignIn> {
                 child: ElevatedButton(
                   onPressed: isChecked
                       ? () {
-                          Navigator.push(
+                          Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => VerificationPage()),
