@@ -12,7 +12,8 @@ import 'dart:convert';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:smartlife/screens/temp.dart';
 
-const String apiKey = "d0290b5d0ee000ec31806f19a5dc73f8";
+const String apiKey = "
+  ur api key here";
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

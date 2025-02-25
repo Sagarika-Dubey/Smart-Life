@@ -1,13 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smartlife/screens/home.dart';
 
-void main() {
-  runApp(MaterialApp(
-    home: DevicePowerPage(),
-    debugShowCheckedModeBanner: false,
-  ));
-}
-
 class DevicePowerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
