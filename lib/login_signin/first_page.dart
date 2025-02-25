@@ -14,8 +14,8 @@ class FirstPage extends StatelessWidget {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color.fromARGB(255, 167, 194, 240),
-              Color.fromARGB(255, 206, 214, 230),
+              Color.fromARGB(255, 247, 223, 223),
+              Color.fromARGB(255, 250, 243, 243),
               Colors.white,
             ],
           ),
@@ -25,9 +25,9 @@ class FirstPage extends StatelessWidget {
           children: [
             Center(
               child: Image.asset(
-                "assets/images/smart_life_logo.png",
-                width: 200,
-                height: 200,
+                "assets/images/logo.png",
+                width: 250,
+                height: 250,
               ),
             ),
             SizedBox(
@@ -41,7 +41,7 @@ class FirstPage extends StatelessWidget {
                 );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromARGB(255, 139, 142, 145),
+                backgroundColor: const Color.fromARGB(255, 122, 40, 40),
                 padding:
                     const EdgeInsets.symmetric(horizontal: 100, vertical: 15),
                 shape: RoundedRectangleBorder(
@@ -76,7 +76,7 @@ class FirstPage extends StatelessWidget {
               child: const Text(
                 'Sign Up',
                 style: TextStyle(
-                    fontSize: 16, color: Color.fromARGB(255, 0, 0, 0)),
+                    fontSize: 16, color: Color.fromARGB(255, 114, 12, 12)),
               ),
             ),
             SizedBox(

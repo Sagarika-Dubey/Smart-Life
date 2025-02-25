@@ -95,7 +95,7 @@ class _VerificationPageState extends State<VerificationPage> {
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color.fromARGB(
-                      255, 103, 104, 105), // Change color when disabled
+                      255, 122, 40, 40), // Change color when disabled
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),

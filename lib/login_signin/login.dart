@@ -239,7 +239,7 @@ class _LoginState extends State<Login> {
                       : null, // Disable button if checkbox is unchecked
                   style: ElevatedButton.styleFrom(
                     backgroundColor: isChecked
-                        ? const Color.fromARGB(255, 103, 104, 105)
+                        ? const Color.fromARGB(255, 122, 40, 40)
                         : Colors.grey[300], // Change color when disabled
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(

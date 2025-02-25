@@ -66,7 +66,7 @@ class _PermissionState extends State<Permission> {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(255, 103, 104, 105),
+                  backgroundColor: const Color.fromARGB(255, 122, 40, 40),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),

@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color.fromARGB(255, 199, 200, 201),
+              Color.fromARGB(255, 252, 236, 236),
               Color.fromARGB(255, 255, 255, 255)
             ],
           ),
