@@ -4,7 +4,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-const String ="ur api key here";
+const String apiKey = "d0290b5d0ee000ec31806f19a5dc73f8";
 
 class WeatherScreen extends StatefulWidget {
   @override

@@ -23,12 +23,17 @@ class FirstPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Center(
-              child: Image.asset(
-                "assets/images/logo.png",
-                width: 250,
-                height: 250,
-              ),
+            Column(
+              children: [
+                Center(
+                  child: Image.asset(
+                    "assets/images/logo.png",
+                    width: 250,
+                    height: 250,
+                  ),
+                ),
+                Text("Make Life Simple")
+              ],
             ),
             SizedBox(
               height: 140,

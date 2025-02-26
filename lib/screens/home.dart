@@ -11,9 +11,9 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:smartlife/screens/temp.dart';
+import 'dart:core';
 
-const String apiKey = "
-  ur api key here";
+const String apiKey = "d0290b5d0ee000ec31806f19a5dc73f8";
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -195,7 +195,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => AllDevices()));
+                                  builder: (context) => AllDevicesScreen()));
                         },
                       ),
                     ),
@@ -323,6 +323,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         title: const Text("All Devices"),
                         onTap: () {
                           print("All Devices tapped");
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AllDevicesScreen()));
                           // Navigate or perform an action here
                         },
                       ),
