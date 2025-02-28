@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:smartlife/screens/automation.dart';
+import './automation.dart';
 
 class SceneScreen extends StatelessWidget {
   const SceneScreen({super.key});
@@ -6,7 +8,7 @@ class SceneScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(child: Text("under development")),
+      body: AutomationSceneScreen(),
     );
   }
 }

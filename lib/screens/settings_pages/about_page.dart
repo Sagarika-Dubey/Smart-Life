@@ -24,12 +24,6 @@ class AboutPage extends StatelessWidget {
             _buildVersionItem("Current Version", "6.2.3 (international)"),
             _buildListItem(context, "Check for Updates"),
             Spacer(),
-            Center(
-              child: Text(
-                "©2025 Volcano Technology Limited",
-                style: TextStyle(color: Colors.grey),
-              ),
-            ),
           ],
         ),
       ),
