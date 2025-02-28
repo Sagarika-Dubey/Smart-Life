@@ -4,6 +4,8 @@ import 'package:smartlife/screens/qrscanner_screen.dart';
 import './setting_screen.dart';
 
 class MeScreen extends StatefulWidget {
+  const MeScreen({super.key});
+
   @override
   _MeScreenState createState() => _MeScreenState();
 }

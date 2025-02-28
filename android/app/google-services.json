@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "683999525751",
+    "project_id": "xpertz-a2a8f",
+    "storage_bucket": "xpertz-a2a8f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:683999525751:android:45d84bc5fac67e3642ff72",
+        "android_client_info": {
+          "package_name": "com.example.smartlife"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXkq6Bcz5DaHuDTwJlM3zDkeANimavUWs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

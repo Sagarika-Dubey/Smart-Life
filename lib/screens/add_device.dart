@@ -3,6 +3,8 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
 class AddDeviceScreen extends StatefulWidget {
+  const AddDeviceScreen({super.key});
+
   @override
   _AddDeviceScreenState createState() => _AddDeviceScreenState();
 }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:smartlife/screens/permission.dart';
 
 class SetPasswordPage extends StatefulWidget {
+  const SetPasswordPage({super.key});
+
   @override
   _SetPasswordPageState createState() => _SetPasswordPageState();
 }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:smartlife/screens/home.dart';
 
 class DevicePowerPage extends StatelessWidget {
+  const DevicePowerPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:smartlife/screens/device%20power.dart';
 
 class EnergySavingPage extends StatelessWidget {
+  const EnergySavingPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

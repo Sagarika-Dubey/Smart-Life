@@ -1,21 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 import './login_signin/first_page.dart';
-//import './login_signin/login.dart';
-//import './login_signin/sigin.dart';
+import './services/firebase_messaging.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
+  // Initialize FCM Service
+  await FirebaseMessagingService.initialize();
+
+  //String? token = await FirebaseMessaging.instance.getToken();
+  //print("🔥 Manual FCM Token: $token"); // Force token fetch
+
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Smart Life',
+      title: 'Xpertz',
       home: FirstPage(),
     );
   }

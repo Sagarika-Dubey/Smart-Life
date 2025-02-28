@@ -11,6 +11,8 @@ import 'package:smartlife/screens/terms_and_conditions/privacy_policy.dart';
 import './profile_page.dart';
 
 class SettingsScreen extends StatefulWidget {
+  const SettingsScreen({super.key});
+
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
 }

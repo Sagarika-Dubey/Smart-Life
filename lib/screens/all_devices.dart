@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import './add_device.dart';
 
 class AllDevicesScreen extends StatefulWidget {
+  const AllDevicesScreen({super.key});
+
   @override
   _AllDevicesScreenState createState() => _AllDevicesScreenState();
 }

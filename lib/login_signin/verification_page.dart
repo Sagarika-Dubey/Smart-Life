@@ -4,7 +4,7 @@ import 'package:smartlife/login_signin/set_password.dart';
 import 'package:smartlife/login_signin/sigin.dart';
 
 class VerificationPage extends StatefulWidget {
-  VerificationPage({super.key});
+  const VerificationPage({super.key});
 
   @override
   _VerificationPageState createState() => _VerificationPageState();
