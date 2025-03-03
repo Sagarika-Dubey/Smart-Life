@@ -1,19 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import './login_signin/first_page.dart';
-import './services/firebase_messaging.dart';
+import './services/storing_the_token.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:http/http.dart' as http;
+
+Future<void> backgroundHandler(RemoteMessage message) async {
+  print("Background Message: ${message.notification?.title}");
+}
+
+Future<String?> getFCMToken() async {
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  return await messaging.getToken();
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  //await Firebase.initializeApp();
+  FirebaseMessaging.onBackgroundMessage(backgroundHandler);
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    print("New notification: ${message.notification?.title}");
+  });
 
-  // Initialize FCM Service
-  await FirebaseMessagingService.initialize();
-
-  //String? token = await FirebaseMessaging.instance.getToken();
-  //print("🔥 Manual FCM Token: $token"); // Force token fetch
-
-  runApp(const MyApp());
+  FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+    print("Notification clicked!");
+  });
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
