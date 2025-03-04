@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smartlife/scenes/disaster_warming.dart';
+import 'package:smartlife/scenes/when_alarm_tiggered.dart';
+import 'package:smartlife/scenes/whether_change.dart';
+import 'package:smartlife/screens/room.dart';
 import 'dart:convert';
+import '../scenes/schedule.dart';
 
 class AutomationSceneScreen extends StatefulWidget {
   @override
@@ -10,19 +15,9 @@ class AutomationSceneScreen extends StatefulWidget {
 class _AutomationSceneScreenState extends State<AutomationSceneScreen> {
   final List<Map<String, dynamic>> scenes = [
     {
-      'title': 'Launch Tap-to-Run',
-      'subtitle': 'Turn off all lights with one tap.',
-      'icon': Icons.touch_app
-    },
-    {
       'title': 'When weather changes',
       'subtitle': 'When local temperature > 28°C.',
       'icon': Icons.wb_sunny
-    },
-    {
-      'title': 'When location changes',
-      'subtitle': 'After you leave home.',
-      'icon': Icons.location_on
     },
     {
       'title': 'Schedule',
@@ -33,11 +28,6 @@ class _AutomationSceneScreenState extends State<AutomationSceneScreen> {
       'title': 'When device status changes',
       'subtitle': 'When an unusual activity is detected.',
       'icon': Icons.devices
-    },
-    {
-      'title': 'Change Arm Mode',
-      'subtitle': 'Arm Stay via Gateway.',
-      'icon': Icons.security
     },
     {
       'title': 'When Alarm Triggered',
@@ -51,9 +41,6 @@ class _AutomationSceneScreenState extends State<AutomationSceneScreen> {
     },
   ];
 
-  String? selectedDevice;
-  bool isDeviceOn = false;
-  TimeOfDay? selectedTime;
   List<Map<String, dynamic>> savedAutomations = [];
 
   @override
@@ -68,117 +55,39 @@ class _AutomationSceneScreenState extends State<AutomationSceneScreen> {
 
     if (storedAutomations != null) {
       setState(() {
-        savedAutomations = storedAutomations.map((data) {
-          Map<String, dynamic> automation = jsonDecode(data);
+        savedAutomations = storedAutomations
+            .map((data) {
+              try {
+                // Explicitly cast the decoded map to `Map<String, dynamic>`
+                Map<String, dynamic> automation =
+                    jsonDecode(data) as Map<String, dynamic>;
 
-          return {
-            'device': automation['device'],
-            'status': automation['status'],
-            'time': TimeOfDay(
-              hour: automation['time']['hour'],
-              minute: automation['time']['minute'],
-            ),
-          };
-        }).toList();
+                TimeOfDay? automationTime;
+                if (automation.containsKey('time') &&
+                    automation['time'] != null &&
+                    automation['time'] is Map &&
+                    automation['time'].containsKey('hour') &&
+                    automation['time'].containsKey('minute')) {
+                  automationTime = TimeOfDay(
+                    hour: automation['time']['hour'],
+                    minute: automation['time']['minute'],
+                  );
+                }
+
+                return {
+                  'device': automation['device'] ?? "Unknown Device",
+                  'status': automation['status'] ?? false,
+                  'time': automationTime, // Could be null, handled in UI
+                };
+              } catch (e) {
+                print("Error parsing automation data: $e");
+                return <String, dynamic>{}; // Return an empty valid map
+              }
+            })
+            .where((element) => element.isNotEmpty)
+            .toList();
       });
     }
-  }
-
-  Future<void> _saveAutomation() async {
-    if (selectedDevice != null && selectedTime != null) {
-      final prefs = await SharedPreferences.getInstance();
-
-      // Create a new automation entry
-      Map<String, dynamic> newAutomation = {
-        'device': selectedDevice!,
-        'status': isDeviceOn,
-        'time': {
-          'hour': selectedTime!.hour,
-          'minute': selectedTime!.minute,
-        },
-      };
-
-      // Convert all automations to JSON strings
-      savedAutomations.add(newAutomation);
-      List<String> storedAutomations =
-          savedAutomations.map((automation) => jsonEncode(automation)).toList();
-
-      // Save as List<String> in SharedPreferences
-      await prefs.setStringList('automations', storedAutomations);
-
-      setState(() {});
-    }
-  }
-
-  void _showAutomationPopup() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text("Set Automation"),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              DropdownButton<String>(
-                value: selectedDevice,
-                hint: Text("Select Device"),
-                onChanged: (value) {
-                  setState(() {
-                    selectedDevice = value;
-                  });
-                },
-                items: ["Light", "Fan", "AC"].map((String device) {
-                  return DropdownMenuItem<String>(
-                    value: device,
-                    child: Text(device),
-                  );
-                }).toList(),
-              ),
-              SwitchListTile(
-                title: Text("Turn On"),
-                value: isDeviceOn,
-                onChanged: (bool value) {
-                  setState(() {
-                    isDeviceOn = value;
-                  });
-                },
-              ),
-              TextButton(
-                onPressed: () async {
-                  TimeOfDay? pickedTime = await showTimePicker(
-                    context: context,
-                    initialTime: TimeOfDay.now(),
-                  );
-                  if (pickedTime != null) {
-                    setState(() {
-                      selectedTime = pickedTime;
-                    });
-                  }
-                },
-                child: Text(selectedTime == null
-                    ? "Select Time"
-                    : "Time: ${selectedTime!.format(context)}"),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text("Cancel"),
-            ),
-            TextButton(
-              onPressed: () {
-                _saveAutomation();
-                Navigator.pop(context);
-              },
-              child: Text("Save"),
-            ),
-          ],
-        );
-      },
-    );
   }
 
   @override
@@ -209,56 +118,47 @@ class _AutomationSceneScreenState extends State<AutomationSceneScreen> {
                   subtitle: Text(scenes[index]['subtitle']),
                   trailing: Icon(Icons.arrow_forward_ios, size: 16),
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            DetailScreen(title: scenes[index]['title']),
-                      ),
-                    );
+                    switch (scenes[index]['title']) {
+                      case 'When weather changes':
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => WeatherChangeScreen()));
+                        break;
+                      case 'Schedule':
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SetAutomationScreen()));
+                        break;
+                      case 'When device status changes':
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => RoomScreen()));
+                        break;
+                      case 'When Alarm Triggered':
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AlarmTriggerPage()));
+                        break;
+                      case 'Disaster Warning':
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DisasterWarming()));
+                        break;
+                      default:
+                        break;
+                    }
                   },
-                );
-              },
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text("Set Custom Automation",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            ),
-            ElevatedButton(
-              onPressed: _showAutomationPopup,
-              child: Text("Add Automation"),
-            ),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: savedAutomations.length,
-              itemBuilder: (context, index) {
-                final automation = savedAutomations[index];
-                return ListTile(
-                  title: Text(
-                      "${automation['device']} - ${(automation['status'] as bool) ? 'On' : 'Off'}"),
-                  subtitle: Text(
-                      "Time: ${(automation['time'] as TimeOfDay).format(context)}"),
                 );
               },
             ),
           ],
         ),
       ),
-    );
-  }
-}
-
-class DetailScreen extends StatelessWidget {
-  final String title;
-  DetailScreen({required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(title)),
-      body: Center(child: Text('Feature coming soon!')),
     );
   }
 }
