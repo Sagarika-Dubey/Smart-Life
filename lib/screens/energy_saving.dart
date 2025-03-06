@@ -95,7 +95,7 @@ class EnergySavingPage extends StatelessWidget {
                   ),
                   onPressed: () {
                     //print("Got It button pressed");
-                    Navigator.push(
+                    Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                             builder: (context) => DevicePowerPage()));

@@ -7,6 +7,9 @@ import 'dart:convert';
 import 'dart:io';
 import './login_signin/first_page.dart';
 import './services/storing_the_token.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import '../services/notification.dart';
+import 'dart:async';
 
 /// Background Message Handler (MUST be a top-level function)
 Future<void> backgroundHandler(RemoteMessage message) async {
@@ -86,6 +89,61 @@ Future<void> sendDeviceInfoToAPI() async {
   }
 }
 
+FirebaseMessaging messaging = FirebaseMessaging.instance;
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
+void setupFirebaseMessaging() async {
+  // Request permissions
+  NotificationSettings settings = await messaging.requestPermission(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+
+  if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+    print('User granted permission');
+  } else {
+    print('User denied permission');
+  }
+
+  // Initialize local notifications
+  const AndroidInitializationSettings initializationSettingsAndroid =
+      AndroidInitializationSettings('@mipmap/ic_launcher');
+  const InitializationSettings initializationSettings =
+      InitializationSettings(android: initializationSettingsAndroid);
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+
+  // Foreground message handler
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    print("Message received: ${message.notification?.title}");
+
+    // Show notification
+    showNotification(message.notification?.title ?? "No Title",
+        message.notification?.body ?? "No Body");
+  });
+
+  // Handle background messages
+  FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+    print("Notification clicked: ${message.notification?.title}");
+  });
+}
+
+// Function to show notification
+Future<void> showNotification(String title, String body) async {
+  const AndroidNotificationDetails androidPlatformChannelSpecifics =
+      AndroidNotificationDetails('channel_id', 'channel_name',
+          importance: Importance.max, priority: Priority.high, showWhen: false);
+  const NotificationDetails platformChannelSpecifics =
+      NotificationDetails(android: androidPlatformChannelSpecifics);
+  await flutterLocalNotificationsPlugin.show(
+    0,
+    title,
+    body,
+    platformChannelSpecifics,
+  );
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(); // ✅ Initialize Firebase
@@ -101,6 +159,12 @@ void main() async {
   });
 
   sendDeviceInfoToAPI(); // Call the function on app start
+  final NotificationService notificationService = NotificationService();
+  await notificationService.setupFirebaseMessaging();
+
+  //Timer.periodic(Duration(seconds: 30), (timer) {
+  //notificationService.fetchNotifications();
+  //});
 
   runApp(MyApp());
 }

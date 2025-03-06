@@ -105,7 +105,9 @@ class _HomeScreenState extends State<HomeScreen> {
         if (!mounted) return;
 
         setState(() {
-          temperature = data["main"]["temp"];
+          // The issue is here - we need to handle the case when temp is an int
+          final temp = data["main"]["temp"];
+          temperature = temp is int ? temp.toDouble() : temp as double;
           weatherDescription = data["weather"][0]["description"];
         });
       }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smartlife/screens/home.dart';
 import './login.dart';
 import './sigin.dart';
 
@@ -91,12 +92,18 @@ class FirstPage extends StatelessWidget {
               onTap: () {
                 // Add functionality for "Try as Guest" if needed.
               },
-              child: const Text(
-                'Try as Guest',
-                style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey,
-                    fontWeight: FontWeight.w400),
+              child: TextButton(
+                onPressed: () {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => HomePage()));
+                },
+                child: const Text(
+                  'Try as Guest',
+                  style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w400),
+                ),
               ),
             )
           ],
