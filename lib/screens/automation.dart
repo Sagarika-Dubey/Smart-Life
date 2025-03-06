@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smartlife/scenes/disaster_warming.dart';
 import 'package:smartlife/scenes/when_alarm_tiggered.dart';
 import 'package:smartlife/scenes/whether_change.dart';
-import 'package:smartlife/screens/room.dart';
+import 'package:smartlife/screens/room_settings.dart';
 import 'dart:convert';
 import '../scenes/schedule.dart';
 

@@ -3,6 +3,7 @@ import 'package:smartlife/screens/all_devices.dart';
 import 'package:smartlife/screens/energy_saving.dart';
 import 'package:smartlife/screens/profile_page.dart';
 import 'package:smartlife/screens/room.dart';
+import 'package:smartlife/screens/room_settings.dart';
 import 'package:smartlife/screens/scene.dart';
 import 'package:smartlife/screens/smart.dart';
 import 'package:smartlife/screens/me.dart';
@@ -28,7 +29,7 @@ class _HomePageState extends State<HomePage> {
 
   final List<Widget> _screens = [
     HomeScreen(),
-    RoomScreen(),
+    RoomPage(),
     SceneScreen(),
     SmartScreen(),
     MeScreen(),
@@ -215,7 +216,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => RoomScreen()));
+                                  builder: (context) => RoomPage()));
                         },
                       ),
                     ),

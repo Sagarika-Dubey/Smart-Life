@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smartlife/screens/energy.dart';
 import 'package:smartlife/screens/home.dart';
 
 class DevicePowerPage extends StatelessWidget {
@@ -76,9 +77,17 @@ class DevicePowerPage extends StatelessWidget {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => HomePage()));
                 },
-                child: Text(
-                  "Save",
-                  style: TextStyle(fontSize: 18, color: Colors.white),
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => EnergySavingHome()));
+                  },
+                  child: Text(
+                    "Save",
+                    style: TextStyle(fontSize: 18, color: Colors.white),
+                  ),
                 ),
               ),
             ),
