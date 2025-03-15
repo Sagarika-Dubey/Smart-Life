@@ -15,7 +15,7 @@ import 'package:smartlife/screens/temp.dart';
 import 'dart:core';
 
 const String apiKey =
-    "d0290b5d0ee000ec31806f19a5dc73f8"; // change with sirs api
+    "Enter wheather api"; // change with sirs api
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
